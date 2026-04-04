@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class Solicitacao {
     private Long idSolicitacao;
-    private String categoria;
+    private Categoria categoria;
     private String descricao;
     private String localizacao;
     private int prioridade;
@@ -14,16 +14,17 @@ public class Solicitacao {
     private LocalDateTime dataAtualizacao;
     private String comentarioUltimaAtualizacao;
 
-    public Solicitacao(Long var1, String var2, String var3, String var4, int var5, boolean var6) {
-        this.idSolicitacao = var1;
-        this.categoria = var2;
-        this.descricao = var3;
-        this.localizacao = var4;
-        this.prioridade = var5;
-        this.anonimo = var6;
-        this.status = "aberto";
-        this.dataCriacao = LocalDateTime.now();
-        this.dataAtualizacao = LocalDateTime.now();
+    public Solicitacao(Long idSolicitacao, Categoria categoria, String descricao, String localizacao, int prioridade, boolean anonimo, String status, LocalDateTime dataCriacao, LocalDateTime dataAtualizacao, String comentarioUltimaAtualizacao) {
+        this.idSolicitacao = idSolicitacao;
+        this.categoria = categoria;
+        this.descricao = descricao;
+        this.localizacao = localizacao;
+        this.prioridade = prioridade;
+        this.anonimo = anonimo;
+        this.status = status;
+        this.dataCriacao = dataCriacao;
+        this.dataAtualizacao = dataAtualizacao;
+        this.comentarioUltimaAtualizacao = comentarioUltimaAtualizacao;
     }
 
     public Long getIdSolicitacao() {
@@ -34,11 +35,11 @@ public class Solicitacao {
         this.idSolicitacao = var1;
     }
 
-    public String getCategoria() {
+    public Categoria getCategoria() {
         return this.categoria;
     }
 
-    public void setCategoria(String var1) {
+    public void setCategoria(Categoria var1) {
         this.categoria = var1;
     }
 

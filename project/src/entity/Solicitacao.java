@@ -1,46 +1,38 @@
 package entity;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
+import enums.Categoria;
+import enums.Prioridade;
+import enums.StatusSolicitacao;
 
-public class Solicitacao {
-    private Long idSolicitacao;
+public abstract class Solicitacao {
+    private String protocolo;
     private Categoria categoria;
     private String descricao;
     private String localizacao;
-    private int prioridade;
-    private boolean anonimo;
-    private String status;
+    private Prioridade prioridade;
+    private StatusSolicitacao status;
     private LocalDateTime dataCriacao;
     private LocalDateTime dataAtualizacao;
-    private String comentarioUltimaAtualizacao;
 
-    public Solicitacao(Long idSolicitacao, Categoria categoria, String descricao, String localizacao, int prioridade, boolean anonimo, String status, LocalDateTime dataCriacao, LocalDateTime dataAtualizacao, String comentarioUltimaAtualizacao) {
-        this.idSolicitacao = idSolicitacao;
+    protected Solicitacao(Categoria categoria, String descricao, String localizacao, Prioridade prioridade) {
+        this.protocolo = UUID.randomUUID().toString().substring(0, 8).toUpperCase();
         this.categoria = categoria;
         this.descricao = descricao;
         this.localizacao = localizacao;
         this.prioridade = prioridade;
-        this.anonimo = anonimo;
-        this.status = status;
-        this.dataCriacao = dataCriacao;
-        this.dataAtualizacao = dataAtualizacao;
-        this.comentarioUltimaAtualizacao = comentarioUltimaAtualizacao;
+        this.status = StatusSolicitacao.ABERTO;
+        this.dataCriacao = LocalDateTime.now();
+        this.dataAtualizacao = LocalDateTime.now();
     }
 
-    public Long getIdSolicitacao() {
-        return this.idSolicitacao;
-    }
-
-    public void setIdSolicitacao(Long var1) {
-        this.idSolicitacao = var1;
+    public String getProtocolo() {
+        return this.protocolo;
     }
 
     public Categoria getCategoria() {
         return this.categoria;
-    }
-
-    public void setCategoria(Categoria var1) {
-        this.categoria = var1;
     }
 
     public String getDescricao() {
@@ -51,15 +43,11 @@ public class Solicitacao {
         return this.localizacao;
     }
 
-    public int getPrioridade() {
+    public Prioridade getPrioridade() {
         return this.prioridade;
     }
 
-    public boolean isAnonimo() {
-        return this.anonimo;
-    }
-
-    public String getStatus() {
+    public StatusSolicitacao getStatus() {
         return this.status;
     }
 
@@ -71,21 +59,13 @@ public class Solicitacao {
         return this.dataAtualizacao;
     }
 
-    public String getComentarioUltimaAtualizacao() {
-        return this.comentarioUltimaAtualizacao;
+    public void atualizarStatus(StatusSolicitacao novoStatus) {
+        this.status = novoStatus;
+        this.dataAtualizacao = LocalDateTime.now();
     }
 
-    public void atualizarStatus(String var1, String var2) {
-        if (var2 != null && !var2.isEmpty()) {
-            this.status = var1;
-            this.comentarioUltimaAtualizacao = var2;
-            this.dataAtualizacao = LocalDateTime.now();
-        } else {
-            throw new IllegalArgumentException("Comentário é obrigatório para atualizar o status.");
-        }
-    }
+    public abstract boolean isAnonima();
 
-    public String toString() {
-        return "Solicitacao{id=" + this.idSolicitacao + ", categoria='" + this.categoria + "', descricao='" + this.descricao + "', localizacao='" + this.localizacao + "', prioridade=" + this.prioridade + ", anonimo=" + this.anonimo + ", status='" + this.status + "'}";
-    }
+    @Override
+    public abstract String toString();
 }

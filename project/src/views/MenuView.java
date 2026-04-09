@@ -5,9 +5,11 @@ import utils.UiUtils;
 
 public class MenuView {
     private final ClientView clientView;
+    private final AuthView authView;
 
-    public MenuView(ClientView clientView) {
+    public MenuView(ClientView clientView, AuthView authView) {
         this.clientView = clientView;
+        this.authView = authView;
     }
 
     public void iniciar() {
@@ -38,7 +40,7 @@ public class MenuView {
                     clientView.acompanharSolicitacao();
                     break;
                 case 3:
-                    System.out.println("\nFuncionalidade em desenvolvimento...");
+                    authView.login();
                     break;
                 case 0:
                     System.out.println("\nEncerrando a aplicação...");

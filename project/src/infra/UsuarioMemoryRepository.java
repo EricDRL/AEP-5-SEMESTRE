@@ -37,6 +37,14 @@ public class UsuarioMemoryRepository implements UsuarioRepository {
     }
 
     @Override
+    public Usuario buscarPorCpf(String cpf) {
+        return this.usuarios.stream()
+                .filter(u -> u.getCpf().equals(cpf))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
     public void atualizar(Usuario usuario) {
         for (int i = 0; i < this.usuarios.size(); i++) {
             if (this.usuarios.get(i).getCpf().equals(usuario.getCpf())) {

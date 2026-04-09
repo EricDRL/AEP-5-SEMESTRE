@@ -23,12 +23,12 @@ public class ClientView {
         int opcao = 0;
 
         do {
-            System.out.println("=== NOVA SOLICITAÇÃO ===");
+            System.out.println(UiUtils.CYAN + "=== NOVA SOLICITAÇÃO ===" + UiUtils.RESET);
             System.out.println("\nDeseja se identificar?\n");
             System.out.println("1 - Sim");
             System.out.println("2 - Não (Anônimo)");
             System.out.println("0 - Voltar");
-            System.out.print("\nEscolha uma opção: ");
+            System.out.print("\n" + UiUtils.YELLOW + "Escolha uma opção: " + UiUtils.RESET);
             opcao = ScannerUtil.lerInt();
 
             switch (opcao) {
@@ -43,7 +43,7 @@ public class ClientView {
                 case 0:
                     break;
                 default:
-                    System.out.println("Opção desconhecida. Tente novamente.");
+                    System.out.println(UiUtils.RED + "Opção desconhecida. Tente novamente." + UiUtils.RESET);
             }
 
         } while (opcao != 0);
@@ -63,14 +63,15 @@ public class ClientView {
             Usuario existente = usuarioService.buscarPorCpf(cpf);
             if (existente != null) {
                 usuario = existente;
-                System.out.println("Usuário já cadastrado. Bem-vindo de volta, " + usuario.getNome() + "!");
+                System.out.println(UiUtils.GREEN + "Usuário já cadastrado. Bem-vindo de volta, " + usuario.getNome()
+                        + "!" + UiUtils.RESET);
                 UiUtils.pausar();
             } else {
                 try {
                     usuario = usuarioService.criarUsuario(nome, cpf);
-                    System.out.println("Usuário identificado: " + usuario.getNome());
+                    System.out.println(UiUtils.GREEN + "Usuário identificado: " + usuario.getNome() + UiUtils.RESET);
                 } catch (IllegalArgumentException e) {
-                    System.out.println("Erro ao identificar usuário: " + e.getMessage());
+                    System.out.println(UiUtils.RED + "Erro ao identificar usuário: " + e.getMessage() + UiUtils.RESET);
                     UiUtils.pausar();
                     return;
                 }
@@ -82,7 +83,7 @@ public class ClientView {
         int escolha = ScannerUtil.lerInt();
 
         if (escolha < 1 || escolha > Categoria.values().length) {
-            System.out.println("Opção inválida.");
+            System.out.println(UiUtils.RED + "Opção inválida." + UiUtils.RESET);
             UiUtils.pausar();
             return;
         }
@@ -99,7 +100,7 @@ public class ClientView {
         int escolhaPrioridade = ScannerUtil.lerInt();
 
         if (escolhaPrioridade < 1 || escolhaPrioridade > Prioridade.values().length) {
-            System.out.println("Opção inválida.");
+            System.out.println(UiUtils.RED + "Opção inválida." + UiUtils.RESET);
             UiUtils.pausar();
             return;
         }
@@ -124,31 +125,68 @@ public class ClientView {
                         usuario);
             }
 
-            System.out.println("\n[SOLICITAÇÃO REGISTRADA COM SUCESSO]");
-            System.out.println("\nProtocolo gerado:  " + solicitacao.getProtocolo());
+            System.out.println(UiUtils.GREEN + "\n[SOLICITAÇÃO REGISTRADA COM SUCESSO]" + UiUtils.RESET);
+            System.out.println("\nProtocolo gerado:  " + UiUtils.YELLOW + solicitacao.getProtocolo() + UiUtils.RESET);
             System.out.println("Data: " + UiUtils.formatarData(solicitacao.getDataCriacao()));
             System.out.println("Categoria: " + solicitacao.getCategoria().getDescricao());
             System.out.println("Prioridade: " + solicitacao.getPrioridade().getDescricao());
-            System.out.println("Status atual: " + solicitacao.getStatus().getDescricao());
+            System.out
+                    .println("Status atual: " + UiUtils.CYAN + solicitacao.getStatus().getDescricao() + UiUtils.RESET);
 
         } catch (IllegalArgumentException e) {
-            System.out.println("\nErro ao criar solicitação: " + e.getMessage());
+            System.out.println(UiUtils.RED + "\nErro ao criar solicitação: " + e.getMessage() + UiUtils.RESET);
         } finally {
             UiUtils.pausar();
         }
     }
 
     public void acompanharSolicitacao() {
-        System.out.println("=== ACOMPANHAR SOLICITAÇÃO ===");
+        System.out.println(UiUtils.CYAN + "=== ACOMPANHAR SOLICITAÇÃO ===" + UiUtils.RESET);
         System.out.println("\nDigite o protocolo:");
-        System.out.print("> ");
         String protocolo = ScannerUtil.lerLinha();
 
         UiUtils.simulaLoading();
 
-        solicitacaoService.buscarEExibirSolicitacao(protocolo);
+        Solicitacao solicitacao = solicitacaoService.buscarPorProtocolo(protocolo);
+
+        if (solicitacao == null) {
+            System.out
+                    .println(UiUtils.RED + "\nSolicitação não encontrada para o protocolo informado." + UiUtils.RESET);
+        } else {
+            exibirDetalhesSolicitacao(solicitacao);
+        }
 
         UiUtils.pausar();
+    }
+
+    private void exibirDetalhesSolicitacao(Solicitacao solicitacao) {
+        String linha = "========================================";
+        String divisor = "----------------------------------------";
+
+        System.out.println("\n" + UiUtils.CYAN + linha);
+        System.out.println(UiUtils.BOLD + "         DETALHES DA SOLICITAÇÃO" + UiUtils.RESET + UiUtils.CYAN);
+        System.out.println(linha + UiUtils.RESET);
+
+        System.out.println();
+        System.out.printf("%-12s: %s%n", "Protocolo", UiUtils.YELLOW + solicitacao.getProtocolo() + UiUtils.RESET);
+        System.out.printf("%-12s: %s%n", "Criado em", UiUtils.formatarData(solicitacao.getDataCriacao()));
+        System.out.printf("%-12s: %s%n", "Categoria", solicitacao.getCategoria().getDescricao());
+        System.out.printf("%-12s: %s%n", "Local", solicitacao.getLocalizacao());
+        System.out.printf("%-12s: %s%n", "Tipo", (solicitacao.isAnonima() ? "Anônimo" : "Identificado"));
+        System.out.printf("%-12s: %s%n", "Prioridade", solicitacao.getPrioridade().getDescricao());
+        System.out.printf("%-12s: %s%s%s%n", "Status", UiUtils.CYAN + UiUtils.BOLD,
+                solicitacao.getStatus().getDescricao(), UiUtils.RESET);
+
+        System.out.println();
+        System.out.println(divisor);
+        System.out.println(UiUtils.BOLD + "DESCRIÇÃO" + UiUtils.RESET);
+        System.out.println();
+        System.out.println(solicitacao.getDescricao());
+        System.out.println();
+        System.out.println(divisor);
+
+        System.out.println();
+        System.out.println(UiUtils.CYAN + linha + UiUtils.RESET);
     }
 
     private void exibirCategorias() {
@@ -156,7 +194,7 @@ public class ClientView {
         for (int i = 0; i < categorias.length; i++) {
             System.out.println((i + 1) + " - " + categorias[i].getDescricao());
         }
-        System.out.print("\nEscolha: ");
+        System.out.print("\n" + UiUtils.YELLOW + "Escolha: " + UiUtils.RESET);
     }
 
     private void exibirPrioridades() {
@@ -164,6 +202,6 @@ public class ClientView {
         for (int i = 0; i < prioridades.length; i++) {
             System.out.println((i + 1) + " - " + prioridades[i].getDescricao());
         }
-        System.out.print("\nEscolha: ");
+        System.out.print("\n" + UiUtils.YELLOW + "Escolha: " + UiUtils.RESET);
     }
 }

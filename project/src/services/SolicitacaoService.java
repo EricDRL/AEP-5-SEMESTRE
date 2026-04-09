@@ -40,22 +40,8 @@ public class SolicitacaoService {
         return solicitacao;
     }
 
-    public void buscarEExibirSolicitacao(String protocolo) {
-        Solicitacao solicitacao = solicitacaoRepository.buscarPorProtocolo(protocolo);
-
-        if (solicitacao == null) {
-            System.out.println("\nSolicitação não encontrada para o protocolo informado.");
-            return;
-        }
-
-        System.out.println("\n=== DADOS DA SOLICITAÇÃO ===");
-        System.out.println("Protocolo:  " + solicitacao.getProtocolo());
-        System.out.println("Categoria:  " + solicitacao.getCategoria().getDescricao());
-        System.out.println("Prioridade: " + solicitacao.getPrioridade().getDescricao());
-        System.out.println("Status:     " + solicitacao.getStatus().getDescricao());
-        System.out.println("Descrição:  " + solicitacao.getDescricao());
-        System.out.println("Local:      " + solicitacao.getLocalizacao());
-        System.out.println("Tipo:       " + (solicitacao.isAnonima() ? "Anônima" : "Identificada"));
+    public Solicitacao buscarPorProtocolo(String protocolo) {
+        return solicitacaoRepository.buscarPorProtocolo(protocolo);
     }
 
     private void validarDescricao(String descricao) {

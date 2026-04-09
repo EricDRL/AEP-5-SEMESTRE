@@ -1,11 +1,9 @@
 package views;
 
 import utils.ScannerUtil;
+import utils.UiUtils;
 
 public class MenuView {
-    public static final String CYAN = "\u001B[36m";
-    public static final String GREEN = "\u001B[32m";
-    public static final String RESET = "\u001B[0m";
     private final ClientView clientView;
 
     public MenuView(ClientView clientView) {
@@ -17,19 +15,19 @@ public class MenuView {
 
         do {
 
-            System.out.println(CYAN + "\n========================================");
+            System.out.println(UiUtils.CYAN + "\n========================================");
             System.out.println("     OBSERVAÇÃO - SISTEMA DE SERVIÇOS   ");
-            System.out.println("========================================" + RESET);
+            System.out.println("========================================" + UiUtils.RESET);
 
             System.out.println("\nMENU PRINCIPAL");
             System.out.println("----------------------------------------");
-            System.out.println(GREEN + " 1 - Nova solicitação" + RESET);
-            System.out.println(GREEN + " 2 - Acompanhar solicitação" + RESET);
-            System.out.println(GREEN + " 3 - Área do gestor" + RESET);
+            System.out.println(UiUtils.GREEN + " 1 - Nova solicitação" + UiUtils.RESET);
+            System.out.println(UiUtils.GREEN + " 2 - Acompanhar solicitação" + UiUtils.RESET);
+            System.out.println(UiUtils.GREEN + " 3 - Área do gestor" + UiUtils.RESET);
             System.out.println(" 0 - Sair");
             System.out.println("----------------------------------------");
 
-            System.out.print("Escolha uma opção: ");
+            System.out.print(UiUtils.YELLOW + "Escolha uma opção: " + UiUtils.RESET);
             opcao = ScannerUtil.lerInt();
 
             switch (opcao) {
@@ -46,7 +44,7 @@ public class MenuView {
                     System.out.println("\nEncerrando a aplicação...");
                     break;
                 default:
-                    System.out.println("Opção desconhecida. Tente novamente.");
+                    System.out.println(UiUtils.RED + "Opção desconhecida. Tente novamente." + UiUtils.RESET);
             }
 
         } while (opcao != 0);

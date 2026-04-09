@@ -47,7 +47,6 @@
 // return usuarios;
 // }
 
-// // Os métodos abaixo não são necessários para este exemplo didático
 // @Override
 // public void remover(Usuario usuario) {
 // throw new UnsupportedOperationException("remover() não implementado no
@@ -64,5 +63,10 @@
 // public void atualizar(Usuario usuario) {
 // throw new UnsupportedOperationException("atualizar() não implementado no
 // UsuarioFileRepository");
+// }
+
+// @Override
+// public Usuario buscarPorCpf(String cpf) {
+// return null;
 // }
 // }

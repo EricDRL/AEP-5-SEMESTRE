@@ -5,6 +5,8 @@ import repositories.UsuarioRepository;
 import services.SolicitacaoService;
 import services.UsuarioService;
 import utils.ScannerUtil;
+import views.AdminView;
+import views.AuthView;
 import views.ClientView;
 import views.MenuView;
 
@@ -20,7 +22,9 @@ public class Main {
 
         // 3. Instanciar Views (CLI) - Injeção de Serviços
         ClientView clientView = new ClientView(usuarioService, solicitacaoService);
-        MenuView menuView = new MenuView(clientView);
+        AdminView adminView = new AdminView(solicitacaoService);
+        AuthView authView = new AuthView(adminView);
+        MenuView menuView = new MenuView(clientView, authView);
 
         // 4. Iniciar Aplicação
         menuView.iniciar();

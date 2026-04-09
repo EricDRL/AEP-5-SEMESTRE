@@ -26,7 +26,7 @@ public class MenuView {
                     clientView.selecionarTipoUsuario();
                     break;
                 case 2:
-                    System.out.println("\nFuncionalidade em desenvolvimento...");
+                    clientView.acompanharSolicitacao();
                     break;
                 case 3:
                     System.out.println("\nFuncionalidade em desenvolvimento...");

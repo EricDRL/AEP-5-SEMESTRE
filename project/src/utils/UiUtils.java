@@ -1,6 +1,14 @@
 package utils;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class UiUtils {
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd/MM HH:mm");
+
+    public static String formatarData(LocalDateTime data) {
+        if (data == null) return "N/A";
+        return "[" + data.format(FORMATTER) + "]";
+    }
     public static void simulaLoading() {
         int width = 30;
         System.out.println(); // Nova linha inicial

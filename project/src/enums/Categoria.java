@@ -1,9 +1,19 @@
 package enums;
 
 public enum Categoria {
-    ILUMINACAO,
-    BURACO,
-    LIMPEZA,
-    SAUDE,
-    SEGURANCA_ESCOLAR
+    ILUMINACAO("Iluminação"),
+    BURACO("Buraco"),
+    LIMPEZA("Limpeza"),
+    SAUDE("Saúde"),
+    SEGURANCA_ESCOLAR("Segurança Escolar");
+
+    private final String descricao;
+
+    Categoria(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
 }
